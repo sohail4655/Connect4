@@ -116,59 +116,10 @@ def evaluate_move(board, col, player, sequence_length):
 
     return red_score if player == red_piece else yellow_score
 
-
-'''
-def evaluate_move(board, col, player, sequence_length):
-    new_board = simulate_move(board, col, player)
-    red = 0
-    yellow = 0
-
-    rows, cols = len(new_board), len(new_board[0])
-
-    # Check rows
-    for i in range(rows):
-        for j in range(cols - sequence_length + 1):
-            if all(new_board[i][j] == new_board[i][j + k] for k in range(1, sequence_length)):
-                if new_board[i][j] == 1:
-                    red += 1
-                elif new_board[i][j] == 2:
-                    yellow += 1
-
-    # Check columns
-    for j in range(cols):
-        for i in range(rows - sequence_length + 1):
-            if all(new_board[i][j] == new_board[i + k][j] for k in range(1, sequence_length)):
-                if new_board[i][j] == 1:
-                    red += 1
-                elif new_board[i][j] == 2:
-                    yellow += 1
-
-    # Check diagonals (top-left to bottom-right)
-    for i in range(rows - sequence_length + 1):
-        for j in range(cols - sequence_length + 1):
-            if all(new_board[i][j] == new_board[i + k][j + k] for k in range(1, sequence_length)):
-                if new_board[i][j] == 1:
-                    red += 1
-                elif new_board[i][j] == 2:
-                    yellow += 1
-
-    # Check diagonals (top-right to bottom-left)
-    for i in range(sequence_length - 1, rows):
-        for j in range(cols - sequence_length + 1):
-            if all(new_board[i][j] == new_board[i - k][j + k] for k in range(1, sequence_length)):
-                if new_board[i][j] == 1:
-                    red += 1
-                elif new_board[i][j] == 2:
-                    yellow += 1
-
-    return red if player == 1 else yellow
-'''
-
-
 def best_move(board, sequence_length, player):
     moves = available_moves(board)
     scores = [evaluate_move(board, col, player, sequence_length) for col in moves]
-    print(scores)
+    #print(scores)
     if(len(scores)==0):
         for k in range(num_col):
             if(avaible_col(board,k)==1):
@@ -199,15 +150,6 @@ def generate_children(state, player):
             child.set_parent(state)
 
 
-'''
-def avaible_col(board, col):
-    print("ahoooooooooo",board[col])
-    indices = np.where(board[col] == 0)
-    if len(indices[0]) > 0:
-        return indices[0][0]
-    else:
-        return -1
-'''
 
 
 import numpy as np
@@ -602,8 +544,10 @@ while running:
                         elif button_text == "Expected Minimax":
                             new_board, max_utility = expecti_maximize(board, 3, 2)
                 col = get_change(board, new_board)
+                if(turn == 1):
+                    col = random.randint(0,6)
             turn, board = update(col, board, top_position, turn)
-            print_board(board)
+            #print_board(board)
             if (turn % 2 == 0):
                 py.draw.rect(screen, WHITE, text2_rect)
                 screen.blit(text1, text1_rect)
